@@ -27,4 +27,13 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    public Comment(String content, String writer) {
+        this.content = content;
+        this.writer = writer;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
 }
