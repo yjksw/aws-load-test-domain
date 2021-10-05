@@ -10,7 +10,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long>  {
             + "FROM loadtest.comment as c\n"
             + "WHERE c.content LIKE '%글%'\n"
             + "ORDER BY c.writer DESC\n"
-            + "LIMIT 480000, 100;",
+            + "LIMIT 496415, 10;",
         nativeQuery = true
     )
     List<Comment> findCommentsForLoadTest();
