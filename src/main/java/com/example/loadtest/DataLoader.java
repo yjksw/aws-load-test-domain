@@ -26,7 +26,7 @@ public class DataLoader implements CommandLineRunner {
             for (int j = 0; j < 1_000_000; j++) {
                 sb.append("내용");
             }
-            Post newPost = new Post("내용내용" + i, "글쓴이" + i, "카테코리" + i);
+            Post newPost = new Post(sb.toString(), "글쓴이" + i, "카테코리" + i);
             Post savedPost = postRepository.save(newPost); //flush
 
             Comment comment = new Comment("댓글", "글쓴이" + i);
