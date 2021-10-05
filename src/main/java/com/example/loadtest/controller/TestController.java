@@ -1,6 +1,7 @@
 package com.example.loadtest.controller;
 
 import com.example.loadtest.domain.Comment;
+import com.example.loadtest.domain.CommentRepository;
 import com.example.loadtest.domain.Post;
 import com.example.loadtest.domain.PostRepository;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,21 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
 
-    public TestController(PostRepository postRepository) {
+    public TestController(PostRepository postRepository, CommentRepository commentRepository) {
         this.postRepository = postRepository;
+        this.commentRepository = commentRepository;
     }
 
-    @GetMapping("/saveData")
-    public ResponseEntity<Void> save() {
-        for (int i = 0; i < 5; i++) {
-            Post newPost = new Post("내용내용" + i, "글쓴이" + i, "카테코리" + i);
-            Post savedPost = postRepository.save(newPost); //flush
-
-            Comment comment = new Comment("댓글", "글쓴이" + i);
-            savedPost.addComment(comment);
-        }
-
+    @GetMapping("/db-io")
+    public ResponseEntity<Void> dbIo() {
+        List<Comment> results = commentRepository.findCommentsForLoadTest();
+        System.out.println(results.size());
         return ResponseEntity.noContent().build();
     }
 
