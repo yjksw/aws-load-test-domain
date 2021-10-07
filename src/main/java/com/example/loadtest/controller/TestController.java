@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,5 +101,11 @@ public class TestController {
             }
         }
         return "ok";
+    }
+
+    @GetMapping("/get")
+    public String get() {
+        Optional<Post> byId = postRepository.findById(1L);
+        return byId.toString();
     }
 }
