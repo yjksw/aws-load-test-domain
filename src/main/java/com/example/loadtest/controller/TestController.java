@@ -21,6 +21,8 @@ public class TestController {
 
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private final Object left = new Object();
+    private final Object right = new Object();
 
     public TestController(PostRepository postRepository, CommentRepository commentRepository) {
         this.postRepository = postRepository;
@@ -76,5 +78,27 @@ public class TestController {
         byte[] bytes = Files.readAllBytes(path);
         System.out.println("완료");
         return ResponseEntity.ok(bytes);
+    }
+
+    @GetMapping("/left")
+    public String leftRight() throws InterruptedException {
+        synchronized (left) {
+            Thread.sleep(5000);
+            synchronized (right) {
+                System.out.println("left - right");
+            }
+        }
+        return "ok";
+    }
+
+    @GetMapping("/right")
+    public String rightLeft() throws InterruptedException {
+        synchronized (right) {
+            Thread.sleep(5000);
+            synchronized (left) {
+                System.out.println("right - left");
+            }
+        }
+        return "ok";
     }
 }
